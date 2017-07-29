@@ -1,0 +1,31 @@
+{
+  "name": "workflow",
+  "version": "1.0.0",
+  "description": "Workflow practice",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manuueel/workflow.git"
+  },
+  "author": "Manuel Zuniga",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/manuueel/workflow/issues"
+  },
+  "homepage": "https://github.com/manuueel/workflow#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-compass": "^2.1.0",
+    "gulp-connect": "^5.0.0",
+    "gulp-if": "^2.0.2",
+    "gulp-imagemin": "^3.3.0",
+    "gulp-minify-html": "^1.0.6",
+    "gulp-sass": "^3.1.0",
+    "gulp-util": "^3.0.8",
+    "gulp-watch": "^4.3.11",
+    "imagemin-pngcrush": "^5.1.0"
+  }
+}
