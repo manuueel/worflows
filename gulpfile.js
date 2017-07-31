@@ -2,25 +2,23 @@ var gulp = require('gulp'),
 		gutil = require('gulp-util'),
 		compass = require('gulp-compass'),
 		minifyHTML = require('gulp-minify-html'),
+		minifyCss = require('gulp-minify-css'),
 		// imagemin = require('gulp-imagemin'),
 		// pngcrush = require('imagemin-pngcrush'),
-		// gulpif = require('gulp-if'),
+		gulpif = require('gulp-if'),
 		connect = require('gulp-connect');
 
 var env,
 		htmlSource,
 		outputDir,
 		sassSource,
-		sassStyle;
 
 env = process.env.NODE_ENV || 'development';
 
 if (env === 'development') {
 	outputDir = 'builds/development/';
-	sassStyle = 'expanded';
 } else {
 	outputDir = 'builds/production/';
-	sassStyle = "compressed";
 }
 
 htmlSource = [outputDir + '*.html'];
@@ -38,17 +36,18 @@ gulp.task('compass', function(){
 		.pipe(compass({
 			sass: 'components/sass',
 			image: outputDir + 'images',
-			style: sassStyle
+			style: 'expanded'
 		})
 		.on('error', gutil.log))
+		.pipe(gulpif(env === 'production', minifyCss()))
 		.pipe(gulp.dest(outputDir + 'css'))
 		.pipe(connect.reload())
 });
 
 gulp.task('html', function() {
-	gulp.src(htmlSource)
-		// .pipe(gulpif(env === 'production', minifyHTML()))
-		// .pipe(gulpif(env === 'production', gulp.dest(outputDir)))
+	gulp.src('builds/development/*.html')
+		.pipe(gulpif(env === 'production', minifyHTML()))
+		.pipe(gulpif(env === 'production', gulp.dest(outputDir)))
 		.pipe(connect.reload())
 });
 
@@ -65,7 +64,7 @@ gulp.task('html', function() {
 
 gulp.task('watch', function() {
 	gulp.watch('components/sass/*.scss',['compass']);
-	gulp.watch(htmlSource, ['html']);
+	gulp.watch('builds/development/*.html', ['html']);
 	// gulp.watch('builds/development/images/*.*', ['images']);
 });
 
