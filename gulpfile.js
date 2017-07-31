@@ -11,14 +11,17 @@ var gulp = require('gulp'),
 var env,
 		htmlSource,
 		outputDir,
-		sassSource,
+		sassStyle,
+		sassSource;
 
 env = process.env.NODE_ENV || 'development';
 
 if (env === 'development') {
 	outputDir = 'builds/development/';
+	sassStyle = 'expanded';
 } else {
 	outputDir = 'builds/production/';
+	sassStyle = 'compressed';
 }
 
 htmlSource = [outputDir + '*.html'];
@@ -34,13 +37,13 @@ gulp.task('connect', function() {
 gulp.task('compass', function(){
 	gulp.src(sassSource)
 		.pipe(compass({
+			css: outputDir + 'css',
 			sass: 'components/sass',
 			image: outputDir + 'images',
-			style: 'expanded'
+			style: sassStyle
 		})
 		.on('error', gutil.log))
 		.pipe(gulpif(env === 'production', minifyCss()))
-		.pipe(gulp.dest(outputDir + 'css'))
 		.pipe(connect.reload())
 });
 
